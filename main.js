@@ -62,8 +62,16 @@ function makeCard(repo, idx) {
     : '';
 
   return `
-    <div class="proj-card" data-idx="${idx}">
-      ${makeCover(repo, idx)}
+    <div href="${repo.html_url}" class="proj-card" data-idx="${idx}">
+      <div class="proj-media-container">
+        <img src="https://raw.githubusercontent.com/localhost-5555/${repo.name}/refs/heads/main/docs/img/interface1.png" 
+             style="width: 100%; height: 130px; display: block;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        
+        <div class="proj-fallback-cover" style="display: none;">
+          ${makeCover(repo, idx)}
+        </div>
+      </div>   
       <div class="proj-body">
         <div class="proj-num">// ${String(idx + 1).padStart(2, '0')}</div>
         <div class="proj-title">${repo.name}</div>

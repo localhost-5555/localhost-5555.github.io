@@ -460,6 +460,7 @@ body {
   transition: border-color 0.2s, transform 0.2s, background 0.2s;
   opacity: 0;
   transform: translateY(10px);
+  cursor: pointer;
 }
 .proj-card.visible {
   opacity: 1; transform: translateY(0);
