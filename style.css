@@ -23,7 +23,7 @@
   --border-2: #3d3e5c;
   --text:     #c0caf5;
   --text-1:   #ffffff;
-  --muted:    #565f89;
+  --muted:    #adadbb;
   --faint:    #e6e6e6;
   --bq-bg:    rgba(187,154,247,0.04);
   --code-bg:  #2a2b42;
@@ -37,11 +37,11 @@
   --bg-2:     #ffffff;
   --bg-3:     #f9f9f5;
   --bg-4:     #e8e8e4;
-  --border:   #d8d8d2;
-  --border-2: #c0c0ba;
+  --border:   #eaeaea;
+  --border-2: #dcdcdc;
   --text:     #3a3a4a;
   --text-1:   #111118;
-  --muted:    #7a7a8e;
+  --muted:    #adadbb;
   --faint:    #e6e6e6;
   --bq-bg:    rgba(187,154,247,0.07);
   --code-bg:  #ededea;
@@ -66,7 +66,7 @@
     --border-2: #c0c0ba;
     --text:     #3a3a4a;
     --text-1:   #111118;
-    --muted:    #7a7a8e;
+    --muted:    #adadbb;
     --faint:    #c8c8c4;
     --bq-bg:    rgba(187,154,247,0.07);
     --code-bg:  #ededea;
@@ -263,15 +263,16 @@ body {
 
 .links-row { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 8px; }
 .md-link {
+  color: var(--purple);
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; color: var(--blue); text-decoration: none;
+  font-size: 12px; text-decoration: none;
   padding: 5px 12px;
   border: 1px solid rgba(122,162,247,0.25);
   border-radius: var(--radius);
   background: rgba(122,162,247,0.05);
   transition: background 0.15s, border-color 0.15s, transform 0.15s;
 }
-.md-link:hover { background: rgba(122,162,247,0.12); border-color: rgba(122,162,247,0.5); transform: translateY(-1px); }
+.md-link:hover { background: rgba(122,162,247,0.12); transform: translateY(-1px); cursor: pointer;}
 .md-link svg { width: 13px; height: 13px; }
 
 .proj-btn {
@@ -322,8 +323,6 @@ body {
 /* images cards */
 .table-container {
   position: flex;
-  /* width: 100%; */
-  /* height: 400px; Give the "table" some height so images don't collapse */
 }
 
 .card {
@@ -461,6 +460,7 @@ body {
   opacity: 0;
   transform: translateY(10px);
   cursor: pointer;
+  text-decoration: none;
 }
 .proj-card.visible {
   opacity: 1; transform: translateY(0);
@@ -470,7 +470,7 @@ body {
 .proj-card:hover { border-color: var(--border-2); transform: translateY(-3px) !important; }
 
 .proj-img-placeholder {
-  width: 100%; height: 130px;
+  width: 100%; height: 150px;
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
   flex-shrink: 0;
@@ -494,7 +494,7 @@ body {
 
 .proj-body { padding: 14px 16px 16px; }
 .proj-num  { font-size: 10px; color: var(--faint); margin-bottom: 6px; letter-spacing: 0.08em; }
-.proj-title { font-size: 13px; font-weight: 500; color: var(--cyan); margin-bottom: 5px; }
+.proj-title { font-size: 13px; font-weight: 500; color: var(--purple); margin-bottom: 5px; }
 .proj-desc  { font-size: 12px; color: var(--muted); line-height: 1.6; font-family: var(--sans); font-weight: 300; margin-bottom: 10px; }
 
 .proj-meta { display: flex; align-items: center; justify-content: space-between; }
