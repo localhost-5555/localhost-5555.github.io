@@ -1,6 +1,83 @@
 // ─── Config — change this to your real username ───
 const GITHUB_USERNAME = 'localhost-5555';
 
+// ─── i18n ───
+const TRANSLATIONS = {
+  en: {
+    'badge.available': 'Available for work',
+    'badge.role': 'Junior web dev',
+    'bq.prefix': 'I like to ',
+    'p.intro': `I'm primarily focused on web development using <code>Django</code> for the backend and <code>Vue</code>
+          for the frontend. I like to explore different languages and technologies, such as <code>React</code>, <code>Swift</code>, <code>Grafana</code>, and <code>LoRa</code>. I've also worked with IoT technologies and microcontrollers.`,
+    'p.student': "I'm currently a biomedical engineering student, but I'm open to work.",
+    'btn.viewProjects': 'View projects',
+    'h2.connect': 'Connect',
+    'h2.languages': 'Languages',
+    'lang.spanish': 'Spanish (Native)',
+    'lang.english': 'English (B2)',
+    'dialog.title': 'Projects',
+    words: ['code.', 'build stuff.', 'try new things.', 'research.'],
+    'proj.noDescription': 'No description provided.',
+    'proj.retry': 'retry',
+    'proj.userNotFound': repo => `User "${repo}" not found.`,
+    'proj.rateLimit': 'Rate limit reached (60 req/hr). Try again shortly.',
+    'proj.apiError': status => `GitHub API error: ${status}`,
+    'proj.repoCount': n => `— ${n} repositories`,
+  },
+  es: {
+    'badge.available': 'Disponible para trabajar',
+    'badge.role': 'Desarrollador web junior',
+    'bq.prefix': 'Me gusta ',
+    'p.intro': `Me enfoco principalmente en desarrollo web usando <code>Django</code> para el backend y <code>Vue</code>
+          para el frontend. Me gusta explorar diferentes lenguajes y tecnologías, como <code>React</code>, <code>Swift</code>, <code>Grafana</code> y <code>LoRa</code>. También he trabajado con tecnologías IoT y microcontroladores.`,
+    'p.student': 'Actualmente soy estudiante de ingeniería biomédica, pero estoy disponible para trabajar.',
+    'btn.viewProjects': 'Ver proyectos',
+    'h2.connect': 'Contacto',
+    'h2.languages': 'Idiomas',
+    'lang.spanish': 'Español (Nativo)',
+    'lang.english': 'Inglés (B2)',
+    'dialog.title': 'Proyectos',
+    words: ['programar.', 'construir cosas.', 'probar cosas nuevas.', 'investigar.'],
+    'proj.noDescription': 'Sin descripción disponible.',
+    'proj.retry': 'reintentar',
+    'proj.userNotFound': repo => `Usuario "${repo}" no encontrado.`,
+    'proj.rateLimit': 'Límite de solicitudes alcanzado (60/hora). Intenta de nuevo en un momento.',
+    'proj.apiError': status => `Error de la API de GitHub: ${status}`,
+    'proj.repoCount': n => `— ${n} repositorios`,
+  },
+};
+
+function t(key) {
+  return TRANSLATIONS[currentLang()][key];
+}
+
+function currentLang() {
+  const stored = localStorage.getItem('lang-pref');
+  if (stored === 'en' || stored === 'es') return stored;
+  return navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en';
+}
+
+function applyLang(lang) {
+  document.documentElement.setAttribute('lang', lang);
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+
+  words.length = 0;
+  words.push(...t('words'));
+
+  Object.entries(langOpts).forEach(([key, btn]) => {
+    btn.classList.toggle('active', key === lang);
+  });
+
+  reposCache = null;
+  if (overlay.classList.contains('open')) loadRepos();
+}
+
 // ─── Language color map ───
 const LANG_COLORS = {
   JavaScript:  '#f7df1e',
@@ -44,7 +121,7 @@ function makeCover(repo, idx) {
 function makeCard(repo, idx) {
   const langColor = LANG_COLORS[repo.language] || '#888';
   const langName  = repo.language || '—';
-  const desc = repo.description || 'No description provided.';
+  const desc = repo.description || t('proj.noDescription');
   const stars = repo.stargazers_count || 0;
   const topics = (repo.topics || []).slice(0, 3);
 
@@ -124,10 +201,10 @@ async function loadRepos() {
 
     if (!res.ok) {
       const msg = res.status === 404
-        ? `User "${GITHUB_USERNAME}" not found.`
+        ? t('proj.userNotFound')(GITHUB_USERNAME)
         : res.status === 403
-          ? 'Rate limit reached (60 req/hr). Try again shortly.'
-          : `GitHub API error: ${res.status}`;
+          ? t('proj.rateLimit')
+          : t('proj.apiError')(res.status);
       throw new Error(msg);
     }
 
@@ -138,7 +215,7 @@ async function loadRepos() {
     reposCache = filtered;
 
     grid.innerHTML = filtered.map((r, i) => makeCard(r, i)).join('');
-    count.textContent = `— ${filtered.length} repositories`;
+    count.textContent = t('proj.repoCount')(filtered.length);
     return filtered;
 
   } catch (err) {
@@ -151,7 +228,7 @@ async function loadRepos() {
                 style="margin-top:8px;padding:6px 14px;font-family:var(--mono);font-size:11px;
                        color:var(--blue);background:rgba(122,162,247,0.08);border:1px solid rgba(122,162,247,0.3);
                        border-radius:4px;cursor:pointer;">
-          retry
+          ${t('proj.retry')}
         </button>
       </div>`;
     count.textContent = '';
@@ -244,6 +321,23 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', ()
   if (currentPref() === 'auto') applyTheme('auto');
 });
 
+const words = [];
+
+// ─── Language logic ───
+const langOpts = {
+  en: document.getElementById('opt-lang-en'),
+  es: document.getElementById('opt-lang-es'),
+};
+
+Object.entries(langOpts).forEach(([lang, btn]) => {
+  btn.addEventListener('click', () => {
+    localStorage.setItem('lang-pref', lang);
+    applyLang(lang);
+  });
+});
+
+applyLang(currentLang());
+
 // ─── Skill bars ───
 function animateCounter(el, target, duration) {
   const start = performance.now();
@@ -280,7 +374,6 @@ const skillObs = new IntersectionObserver(entries => {
 const sl = document.getElementById('skill-list');
 if (sl) skillObs.observe(sl);
 
-const words = ["code.", "build stuff.", "try new things.", "research."];
 let i = 0;
 let timer;
 

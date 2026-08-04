@@ -19,6 +19,12 @@
     </div>
     <div class="filename">README<span>.md</span></div>
 
+    <!-- ── Language toggle pill ── -->
+    <div class="theme-toggle" role="group" aria-label="Language" id="lang-toggle">
+      <button class="theme-opt theme-opt-auto" id="opt-lang-en" aria-label="English" title="English">EN</button>
+      <button class="theme-opt theme-opt-auto" id="opt-lang-es" aria-label="Español" title="Español">ES</button>
+    </div>
+
     <!-- ── Theme toggle pill ── -->
     <div class="theme-toggle" role="group" aria-label="Color theme">
       <button class="theme-opt theme-opt-auto" id="opt-auto" aria-label="Auto (system)" title="Auto">A</button>
@@ -40,9 +46,9 @@
     <div class="badges">
       <span class="badge badge-green">
         <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="4" fill="currentColor" opacity="0.4"/><circle cx="5" cy="5" r="2.2" fill="currentColor"/></svg>
-        Available for work
+        <span data-i18n="badge.available">Available for work</span>
       </span>
-      <span class="badge badge-blue">Junior web dev</span>
+      <span class="badge badge-blue" data-i18n="badge.role">Junior web dev</span>
       <span class="badge badge-purple">Medellín, CO</span>
     </div>
     <div class="table-container">
@@ -54,7 +60,7 @@
       <div class="bq">
         <p>
           <span style="color: violet">> </span>
-          I like to <span id="terminal-text"></span><span class="cursor">|</span>
+          <span data-i18n="bq.prefix">I like to </span><span id="terminal-text"></span><span class="cursor">|</span>
         </p>
       </div>
     </div>
@@ -67,24 +73,24 @@
       <div>
         
 
-        <p class="p">
-          I'm primarily focused on web development using <code>Django</code> for the backend and <code>Vue</code> 
+        <p class="p" data-i18n-html="p.intro">
+          I'm primarily focused on web development using <code>Django</code> for the backend and <code>Vue</code>
           for the frontend. I like to explore different languages and technologies, such as <code>React</code>, <code>Swift</code>, <code>Grafana</code>, and <code>LoRa</code>. I've also worked with IoT technologies and microcontrollers.
         </p>
 
-        <p class="p">
+        <p class="p" data-i18n="p.student">
           I'm currently a biomedical engineering student, but I'm open to work.
         </p>
 
         <button class="proj-btn" id="proj-btn" aria-haspopup="dialog">
           <span class="arrow" aria-hidden="true">▶</span>
-          View projects
+          <span data-i18n="btn.viewProjects">View projects</span>
         </button>
-        
+
         <hr class="hr" />
 
         <div class="h2">
-          <span class="h-text">Connect</span>
+          <span class="h-text" data-i18n="h2.connect">Connect</span>
         </div>
 
 
@@ -116,28 +122,28 @@
 
         <table class="skill-table" id="skill-list" aria-label="Technology skills">
           <tbody>
-            <tr data-pct="48" data-color="#2165ff"><td>Python</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="45" data-color="#e0af"><td>C++</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="43" data-color="#ffec21"><td>JavaScript</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="30" data-color="#ff5216"><td>Linux</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="25" data-color="#ff5216"><td>Bash</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="32" data-color="#71ffb9"><td>VueJS</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="37" data-color="#71ffb9"><td>Django</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="35" data-color="#ff5216"><td>Git</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="32" data-color="#9ec"><td>PostgreSQL</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="48" data-color="#2165ff"><td><img src="https://api.iconify.design/logos:python.svg" alt="" /></td><td>Python</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="45" data-color="#e0af"><td><img src="https://api.iconify.design/logos:c-plusplus.svg" alt="" /></td><td>C++</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="43" data-color="#ffec21"><td><img src="https://api.iconify.design/logos:javascript.svg" alt="" /></td><td>JavaScript</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="30" data-color="#ff5216"><td><img src="https://api.iconify.design/logos:linux-tux.svg" alt="" /></td><td>Linux</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="25" data-color="#ff5216"><td><img src="https://api.iconify.design/logos:bash-icon.svg" alt="" /></td><td>Bash</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="32" data-color="#71ffb9"><td><img src="https://api.iconify.design/logos:vue.svg" alt="" /></td><td>VueJS</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="37" data-color="#71ffb9"><td><img src="https://api.iconify.design/logos:django-icon.svg" alt="" /></td><td>Django</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="35" data-color="#ff5216"><td><img src="https://api.iconify.design/logos:git-icon.svg" alt="" /></td><td>Git</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
+            <tr data-pct="32" data-color="#9ec"><td><img src="https://api.iconify.design/logos:postgresql.svg" alt="" /></td><td>PostgreSQL</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
           </tbody>
         </table>
 
         <hr class="hr" />
   
         <div class="h2">
-          <span class="h-text">Languages</span>
+          <span class="h-text" data-i18n="h2.languages">Languages</span>
         </div>
         <p  class="md-link" aria-label="Languages">
-          🇪🇸 Spanish (Native)
+          🇪🇸 <span data-i18n="lang.spanish">Spanish (Native)</span>
         </p>
         <p  class="md-link" aria-label="Languages">
-          🇺🇸 English (B2)
+          🇺🇸 <span data-i18n="lang.english">English (B2)</span>
         </p>
       </div>
 
@@ -151,7 +157,7 @@
   <div class="dialog" id="dialog">
     <div class="dialog-header">
       <div class="dialog-title">
-        ⚙️ Projects
+        ⚙️ <span data-i18n="dialog.title">Projects</span>
         <span class="dialog-count" id="dialog-count"></span>
       </div>
       <button class="dialog-close" id="dialog-close" aria-label="Close projects">✕</button>
