@@ -4,15 +4,16 @@ const GITHUB_USERNAME = 'localhost-5555';
 // ─── i18n ───
 const TRANSLATIONS = {
   en: {
-    'badge.available': 'Available for work',
     'badge.role': 'Junior web dev',
     'bq.prefix': 'I like to ',
     'p.intro': `I'm primarily focused on web development using <code>Django</code> for the backend and <code>Vue</code>
-          for the frontend. I like to explore different languages and technologies, such as <code>React</code>, <code>Swift</code>, <code>Grafana</code>, and <code>LoRa</code>. I've also worked with IoT technologies and microcontrollers.`,
+          for the frontend. I like to explore different languages and technologies. I've also worked with IoT technologies and microcontrollers.`,
     'p.student': "I'm currently a biomedical engineering student, but I'm open to work.",
     'btn.viewProjects': 'View projects',
+    'btn.viewAllProjects': 'View all projects',
     'h2.connect': 'Connect',
     'h2.languages': 'Languages',
+    'h2.projects': 'Projects',
     'lang.spanish': 'Spanish (Native)',
     'lang.english': 'English (B2)',
     'dialog.title': 'Projects',
@@ -25,15 +26,16 @@ const TRANSLATIONS = {
     'proj.repoCount': n => `— ${n} repositories`,
   },
   es: {
-    'badge.available': 'Disponible para trabajar',
     'badge.role': 'Desarrollador web junior',
     'bq.prefix': 'Me gusta ',
     'p.intro': `Me enfoco principalmente en desarrollo web usando <code>Django</code> para el backend y <code>Vue</code>
-          para el frontend. Me gusta explorar diferentes lenguajes y tecnologías, como <code>React</code>, <code>Swift</code>, <code>Grafana</code> y <code>LoRa</code>. También he trabajado con tecnologías IoT y microcontroladores.`,
+          para el frontend. Me gusta explorar diferentes lenguajes y tecnologías. También he trabajado con tecnologías IoT y microcontroladores.`,
     'p.student': 'Actualmente soy estudiante de ingeniería biomédica, pero estoy disponible para trabajar.',
     'btn.viewProjects': 'Ver proyectos',
+    'btn.viewAllProjects': 'Ver todos los proyectos',
     'h2.connect': 'Contacto',
     'h2.languages': 'Idiomas',
+    'h2.projects': 'Proyectos',
     'lang.spanish': 'Español (Nativo)',
     'lang.english': 'Inglés (B2)',
     'dialog.title': 'Proyectos',
@@ -76,6 +78,7 @@ function applyLang(lang) {
 
   reposCache = null;
   if (overlay.classList.contains('open')) loadRepos();
+  loadTape();
 }
 
 // ─── Language color map ───
@@ -95,6 +98,25 @@ const LANG_COLORS = {
   C:           '#555555',
   Kotlin:      '#A97BFF',
   Swift:       '#F05138',
+};
+
+// ─── Language icon map (iconify logos slugs) ───
+const LANG_ICONS = {
+  JavaScript: 'javascript',
+  TypeScript: 'typescript-icon',
+  Python:     'python',
+  Go:         'go',
+  Rust:       'rust',
+  Vue:        'vue',
+  HTML:       'html-5',
+  CSS:        'css-3',
+  Shell:      'bash-icon',
+  Ruby:       'ruby',
+  Java:       'java',
+  'C++':      'c-plusplus',
+  C:          'c',
+  Kotlin:     'kotlin-icon',
+  Swift:      'swift',
 };
 
 // ─── Cover gradient palette (cycles through repos) ───
@@ -129,6 +151,18 @@ function makeCard(repo, idx) {
     ? `<div class="proj-topics">${topics.map(t => `<span class="topic-tag">${t}</span>`).join('')}</div>`
     : '';
 
+  const langIcon = LANG_ICONS[repo.language];
+  const stackHtml = repo.language
+    ? `<div class="proj-stack">
+         <span class="proj-stack-item">
+           ${langIcon
+             ? `<img src="https://api.iconify.design/logos:${langIcon}.svg" alt="" />`
+             : `<span class="lang-dot" style="background:${langColor}"></span>`}
+           <span>${langName}</span>
+         </span>
+       </div>`
+    : '';
+
   const starsHtml = stars > 0
     ? `<span class="proj-stars">
          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -154,12 +188,10 @@ function makeCard(repo, idx) {
         <div class="proj-num">// ${String(idx + 1).padStart(2, '0')}</div>
         <div class="proj-title">${repo.name}</div>
         <p class="proj-desc">${desc}</p>
+        ${stackHtml}
         ${topicsHtml}
         <div class="proj-meta">
           <div class="proj-left">
-            <span class="proj-lang">
-              <span class="lang-dot" style="background:${langColor}"></span>${langName}
-            </span>
             ${starsHtml}
           </div>
         </div>
@@ -182,41 +214,56 @@ function showSkeletons(n = 6) {
     </div>`).join('');
 }
 
-// ─── Fetch & render ───
+// ─── Fetch & cache ───
 let reposCache = null;
+let reposPromise = null;
 
+function fetchRepos() {
+  if (reposCache) return Promise.resolve(reposCache);
+  if (reposPromise) return reposPromise;
+
+  reposPromise = fetch(
+    `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`,
+    { headers: { Accept: 'application/vnd.github+json' } }
+  )
+    .then(res => {
+      if (!res.ok) {
+        const msg = res.status === 404
+          ? t('proj.userNotFound')(GITHUB_USERNAME)
+          : res.status === 403
+            ? t('proj.rateLimit')
+            : t('proj.apiError')(res.status);
+        throw new Error(msg);
+      }
+      return res.json();
+    })
+    .then(repos => {
+      // filter out forks (optional — remove if you want forks included)
+      const filtered = repos.filter(r => !r.fork);
+      reposCache = filtered;
+      reposPromise = null;
+      return filtered;
+    })
+    .catch(err => {
+      reposPromise = null;
+      throw err;
+    });
+
+  return reposPromise;
+}
+
+// ─── Render modal grid ───
 async function loadRepos() {
-  if (reposCache) return reposCache;
-
   const grid  = document.getElementById('proj-grid');
   const count = document.getElementById('dialog-count');
 
   showSkeletons(6);
 
   try {
-    const res = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`,
-      { headers: { Accept: 'application/vnd.github+json' } }
-    );
-
-    if (!res.ok) {
-      const msg = res.status === 404
-        ? t('proj.userNotFound')(GITHUB_USERNAME)
-        : res.status === 403
-          ? t('proj.rateLimit')
-          : t('proj.apiError')(res.status);
-      throw new Error(msg);
-    }
-
-    const repos = await res.json();
-    // filter out forks (optional — remove if you want forks included)
-    const filtered = repos.filter(r => !r.fork);
-
-    reposCache = filtered;
-
-    grid.innerHTML = filtered.map((r, i) => makeCard(r, i)).join('');
-    count.textContent = t('proj.repoCount')(filtered.length);
-    return filtered;
+    const repos = await fetchRepos();
+    grid.innerHTML = repos.map((r, i) => makeCard(r, i)).join('');
+    count.textContent = t('proj.repoCount')(repos.length);
+    return repos;
 
   } catch (err) {
     grid.innerHTML = `
@@ -236,8 +283,37 @@ async function loadRepos() {
   }
 }
 
+// ─── Render projects tape (below the Stack tape) ───
+async function loadTape(n = 4) {
+  const tape = document.getElementById('proj-tape');
+  if (!tape) return;
+
+  tape.innerHTML = Array.from({ length: n }, () => `
+    <div class="proj-skeleton">
+      <div class="skel-img"></div>
+      <div class="skel-body">
+        <div class="skel-line w-40"></div>
+        <div class="skel-line w-70"></div>
+        <div class="skel-line w-90"></div>
+      </div>
+    </div>`).join('');
+
+  try {
+    const repos = await fetchRepos();
+    const subset = repos.slice(0, n);
+    tape.innerHTML = subset.map((r, i) => makeCard(r, i)).join('');
+    requestAnimationFrame(() => {
+      tape.querySelectorAll('.proj-card').forEach((c, i) => {
+        setTimeout(() => c.classList.add('visible'), 60 + i * 55);
+      });
+    });
+  } catch (err) {
+    tape.innerHTML = '';
+  }
+}
+
 // ─── Dialog open/close ───
-const projBtn  = document.getElementById('proj-btn');
+const projOpenBtns = document.querySelectorAll('.proj-open-btn');
 const overlay  = document.getElementById('dialog-overlay');
 const dialog   = document.getElementById('dialog');
 const closeBtn = document.getElementById('dialog-close');
@@ -264,10 +340,10 @@ function closeDialog() {
   overlay.classList.remove('open');
   overlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
-  projBtn.focus();
+  projOpenBtns[0]?.focus();
 }
 
-projBtn.addEventListener('click', openDialog);
+projOpenBtns.forEach(btn => btn.addEventListener('click', openDialog));
 closeBtn.addEventListener('click', closeDialog);
 overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
 document.addEventListener('keydown', e => {
@@ -338,42 +414,6 @@ Object.entries(langOpts).forEach(([lang, btn]) => {
 
 applyLang(currentLang());
 
-// ─── Skill bars ───
-function animateCounter(el, target, duration) {
-  const start = performance.now();
-  (function step(now) {
-    const p    = Math.min((now - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(ease * target);
-    if (p < 1) requestAnimationFrame(step);
-    else el.textContent = target;
-  })(performance.now());
-}
-
-const skillObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    e.target.querySelectorAll('tr').forEach((row, i) => {
-      const pct   = parseInt(row.dataset.pct);
-      const color = row.dataset.color;
-      const fill  = row.querySelector('.bar-fill');
-      const ctr   = row.querySelector('.pct-counter');
-      if (!fill) return;
-      fill.style.background = color;
-      setTimeout(() => {
-        fill.style.width = pct + '%';
-        fill.classList.add('animating');
-        if (ctr) animateCounter(ctr, pct, 900);
-        setTimeout(() => fill.classList.remove('animating'), 1500);
-      }, 150 + i * 100);
-    });
-    skillObs.unobserve(e.target);
-  });
-}, { threshold: 0.2 });
-
-const sl = document.getElementById('skill-list');
-if (sl) skillObs.observe(sl);
-
 let i = 0;
 let timer;
 
@@ -414,5 +454,8 @@ function deletingEffect() {
     loopDeleting();
 }
 
-// Kick off the animation when the page loads
-document.addEventListener("DOMContentLoaded", typingEffect);
+
+// Kick off the animations when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  typingEffect();
+});

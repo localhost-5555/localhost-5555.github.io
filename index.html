@@ -40,23 +40,14 @@
   <article class="readme" aria-label="Developer portfolio">
 
     <div class="h1">
-      <span class="h-text">Javier Riascos (BETA CV)</span>
+      <span class="h-text">Javier Riascos</span>
     </div>
 
     <div class="badges">
-      <span class="badge badge-green">
-        <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="4" fill="currentColor" opacity="0.4"/><circle cx="5" cy="5" r="2.2" fill="currentColor"/></svg>
-        <span data-i18n="badge.available">Available for work</span>
-      </span>
       <span class="badge badge-blue" data-i18n="badge.role">Junior web dev</span>
       <span class="badge badge-purple">Medellín, CO</span>
     </div>
     <div class="table-container">
-      <div>
-        <img src="https://i.pinimg.com/736x/d9/ab/a6/d9aba644db702b1b803c9c161ee35e02.jpg" alt="Photo 1" class="card card1">
-        <img src="https://i.pinimg.com/736x/a2/73/ab/a273abef51ce6bfdd54de9f126658699.jpg" alt="Photo 2" class="card card2">
-        <img src="https://i.pinimg.com/736x/9f/20/25/9f20257e0ed5392d1eb1090469a89ca8.jpg" alt="Photo 3" class="card card3">
-      </div>
       <div class="bq">
         <p>
           <span style="color: violet">> </span>
@@ -65,80 +56,64 @@
       </div>
     </div>
 
+    <p class="p" data-i18n-html="p.intro">
+      I'm primarily focused on web development using <code>Django</code> for the backend and <code>Vue</code>
+      for the frontend. I like to explore different languages and technologies. I've also worked with IoT technologies and microcontrollers.
+    </p>
+
+    <p class="p" data-i18n="p.student">
+      I'm currently a biomedical engineering student, but I'm open to work.
+    </p>
+
+    <hr class="hr">
+
+    <div class="h2" style="margin-top:20px">
+      <span class="h-text" data-i18n="h2.projects">Projects</span>
+    </div>
+
+    <div class="skill-row" id="skill-list" aria-label="Technology skills">
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:python.svg" alt="" /><span>Python</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:c-plusplus.svg" alt="" /><span>C++</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:javascript.svg" alt="" /><span>JavaScript</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:linux-tux.svg" alt="" /><span>Linux</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:bash-icon.svg" alt="" /><span>Bash</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:vue.svg" alt="" /><span>VueJS</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:django-icon.svg" alt="" /><span>Django</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:git-icon.svg" alt="" /><span>Git</span></div>
+      <div class="badge badge-purple"><img src="https://api.iconify.design/logos:postgresql.svg" alt="" /><span>PostgreSQL</span></div>
+    </div>
+
+    <div class="proj-tape-row" id="proj-tape" aria-label="Featured projects"></div>
+
+    <button class="proj-btn proj-open-btn" id="proj-tape-btn" aria-haspopup="dialog">
+      <span class="arrow" aria-hidden="true">▶</span>
+      <span data-i18n="btn.viewAllProjects">View all projects</span>
+    </button>
+
     <hr class="hr" />
-    
-    <div class="readme-cols">
 
-      <!-- Left column -->
-      <div>
-        
+    <div>
 
-        <p class="p" data-i18n-html="p.intro">
-          I'm primarily focused on web development using <code>Django</code> for the backend and <code>Vue</code>
-          for the frontend. I like to explore different languages and technologies, such as <code>React</code>, <code>Swift</code>, <code>Grafana</code>, and <code>LoRa</code>. I've also worked with IoT technologies and microcontrollers.
-        </p>
-
-        <p class="p" data-i18n="p.student">
-          I'm currently a biomedical engineering student, but I'm open to work.
-        </p>
-
-        <button class="proj-btn" id="proj-btn" aria-haspopup="dialog">
-          <span class="arrow" aria-hidden="true">▶</span>
-          <span data-i18n="btn.viewProjects">View projects</span>
-        </button>
-
-        <hr class="hr" />
-
-        <div class="h2">
-          <span class="h-text" data-i18n="h2.connect">Connect</span>
-        </div>
-
-
-        <div class="links-row">
-          <a href="https://github.com/localhost-5555" target="_blank" class="md-link" aria-label="GitHub">
-            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-            github.com/localhost-5555
-          </a>
-          <a href="https://linkedin.com/in/javier-riascos-432a4b269" target="_blank" class="md-link" aria-label="LinkedIn">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="2"/><path d="M5 7v5M5 5v.5M8 12V9a2 2 0 0 1 4 0v3M8 7v5"/></svg>
-            linkedin/in/javier-riascos-432a4b269
-          </a>
-          <!-- <a href="mailto:javier@example.dev" class="md-link" aria-label="Email">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 4h12v9H2z"/><polyline points="2,4 8,9 14,4"/></svg>
-            javier@example.dev
-          </a> -->
-          <!-- <a href="./resume.pdf" class="md-link" aria-label="Resume PDF">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5l-3-3z"/><polyline points="10,2 10,5 13,5"/></svg>
-            resume.pdf
-          </a> -->
-        </div>
+      <div class="h2">
+        <span class="h-text" data-i18n="h2.connect">Connect</span>
       </div>
 
-      <!-- Right column: stack -->
-      <div>
-        <div class="h2" style="margin-top:0">
-          <span class="h-text">Stack</span>
-        </div>
+      <div class="links-row">
+        <a href="https://github.com/localhost-5555" target="_blank" class="md-link" aria-label="GitHub">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          github.com/localhost-5555
+        </a>
+        <a href="https://linkedin.com/in/javier-riascos-432a4b269" target="_blank" class="md-link" aria-label="LinkedIn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="2"/><path d="M5 7v5M5 5v.5M8 12V9a2 2 0 0 1 4 0v3M8 7v5"/></svg>
+          linkedin/in/javier-riascos-432a4b269
+        </a>
+      </div>
 
-        <table class="skill-table" id="skill-list" aria-label="Technology skills">
-          <tbody>
-            <tr data-pct="48" data-color="#2165ff"><td><img src="https://api.iconify.design/logos:python.svg" alt="" /></td><td>Python</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="45" data-color="#e0af"><td><img src="https://api.iconify.design/logos:c-plusplus.svg" alt="" /></td><td>C++</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="43" data-color="#ffec21"><td><img src="https://api.iconify.design/logos:javascript.svg" alt="" /></td><td>JavaScript</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="30" data-color="#ff5216"><td><img src="https://api.iconify.design/logos:linux-tux.svg" alt="" /></td><td>Linux</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="25" data-color="#ff5216"><td><img src="https://api.iconify.design/logos:bash-icon.svg" alt="" /></td><td>Bash</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="32" data-color="#71ffb9"><td><img src="https://api.iconify.design/logos:vue.svg" alt="" /></td><td>VueJS</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="37" data-color="#71ffb9"><td><img src="https://api.iconify.design/logos:django-icon.svg" alt="" /></td><td>Django</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="35" data-color="#ff5216"><td><img src="https://api.iconify.design/logos:git-icon.svg" alt="" /></td><td>Git</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-            <tr data-pct="32" data-color="#9ec"><td><img src="https://api.iconify.design/logos:postgresql.svg" alt="" /></td><td>PostgreSQL</td><td><div class="bar-track"><div class="bar-fill"></div></div></td><td><span class="pct-counter">0</span>%</td></tr>
-          </tbody>
-        </table>
+      <div class="h2">
+        <span class="h-text" data-i18n="h2.languages">Languages</span>
+      </div>
 
-        <hr class="hr" />
-  
-        <div class="h2">
-          <span class="h-text" data-i18n="h2.languages">Languages</span>
-        </div>
+      <div class="links-row">
         <p  class="md-link" aria-label="Languages">
           🇪🇸 <span data-i18n="lang.spanish">Spanish (Native)</span>
         </p>
@@ -146,7 +121,6 @@
           🇺🇸 <span data-i18n="lang.english">English (B2)</span>
         </p>
       </div>
-
 
     </div>
   </article>
